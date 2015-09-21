@@ -5,4 +5,12 @@ function init(Map) {
     map.render('map')
 }
 
+function test(Metadata) {
+    let args = {};
+    let meta = new Metadata(args);
+    meta.read()
+}
+
+
 exports.init = init;
+exports.test = test;
