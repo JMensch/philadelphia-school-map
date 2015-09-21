@@ -34,7 +34,7 @@ class Map {
     * @param string loc  the #id location in the markup
     * @return map object
     */
-    map(loc, json) {
+    map(loc, geojson) {
         let map = {};
 
         // load a map of philly
@@ -44,8 +44,8 @@ class Map {
         });
 
         // if geojson exists, add it
-        if (this.geojson !== undefined) {
-            map.data.loadGeoJson(this.geojson);
+        if (geojson !== undefined) {
+            map.data.addGeoJson(geojson);
         }
 
         return map;
