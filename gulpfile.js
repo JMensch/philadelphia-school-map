@@ -1,13 +1,13 @@
 'use strict';
 var gulp        = require('gulp');
 var browserSync = require('browser-sync');
-var reload      = browserSync.reload;
-var harp        = require('harp');
-var sass        = require('gulp-sass');
-var babel       = require('gulp-babel');
-var browserify  = require('browserify');
-var transform   = require('vinyl-source-stream');
-var uglify      = require('gulp-uglify');
+var reload      = browserSync.reload,
+    harp        = require('harp'),
+    sass        = require('gulp-sass'),
+    babel       = require('gulp-babel'),
+    browserify  = require('browserify'),
+    source      = require('vinyl-source-stream'),
+    uglify      = require('gulp-uglify');
 
 /**
  * Serve the Harp Site from the dist directory
@@ -34,17 +34,13 @@ gulp.task('compile-styles', function() {
 });
 
 gulp.task('compile-scripts', function() {
-    var b = browserify({
-      entries: './entry.js',
-      debug: true
-    });
+    var b = browserify();
+	b.add('src/scripts/main.js');
 
-    return b.bundle()
-        .pipe(source('src/scripts/*.js'))
-        .pipe(buffer())
-        .pipe(babel())
-        .pipe(uglify())
-        .pipe(gulp.dest('dist'));
+	return b.bundle()
+		.on('error', function(err) { console.log(err); this.emit('end'); })
+		.pipe(source('main.js'))
+		.pipe(gulp.dest('dist'));
 });
 
 gulp.task('watch', function() {
