@@ -8,7 +8,7 @@ var reload      = browserSync.reload,
     browserify  = require('browserify'),
     source      = require('vinyl-source-stream'),
     uglify      = require('gulp-uglify');
-
+    
 /**
  * Serve the Harp Site from the dist directory
  */
@@ -27,10 +27,16 @@ gulp.task('serve', function () {
   })
 });
 
+gulp.task('compile-markup', function() {
+    return gulp.src('src/*.ejs')
+        // .pipe(ejs())
+        .pipe(gulp.dest('dist'));
+});
+
 gulp.task('compile-styles', function() {
     return gulp.src('src/styles/*.scss')
         .pipe(sass())
-        .pipe(gulp.dest('dist'))
+        .pipe(gulp.dest('dist'));
 });
 
 gulp.task('compile-scripts', function() {
@@ -46,6 +52,8 @@ gulp.task('compile-scripts', function() {
 gulp.task('watch', function() {
     gulp.watch("src/scripts/*.js", ['compile-scripts']);
     gulp.watch("src/styles/*.scss", ['compile-styles']);
+    gulp.watch("src/*.ejs", ['compile-markup']);
+
     /**
      * Watch for scss changes, tell BrowserSync to refresh main.css
      */
