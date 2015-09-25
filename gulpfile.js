@@ -8,7 +8,8 @@ var reload      = browserSync.reload,
     browserify  = require('browserify'),
     source      = require('vinyl-source-stream'),
     uglify      = require('gulp-uglify'),
-    ghPages     = require('gulp-gh-pages');
+    ghPages     = require('gulp-gh-pages'),
+    shell       = require('gulp-shell');
 /**
  * Serve the Harp Site from the dist directory
  */
@@ -27,9 +28,18 @@ gulp.task('serve', function () {
   })
 });
 
-gulp.task('deploy', function() {
-  return gulp.src('./dist/**/*')
-    .pipe(ghPages());
+gulp.task('compile', function() {
+    return gulp
+        .src('')
+        .pipe(shell([
+            'harp compile dist compile'
+        ]));
+});
+
+gulp.task('deploy-ghpages', function() {
+  return gulp
+        .src('./compile/**/*')
+        .pipe(ghPages());
 });
 
 gulp.task('compile-markup', function() {
@@ -77,3 +87,4 @@ gulp.task('watch', function() {
  * launch BrowserSync & watch files.
  */
 gulp.task('default', ['serve', 'watch']);
+gulp.task('deploy', ['compile', 'deploy-ghpages'])
