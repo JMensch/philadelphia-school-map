@@ -38,7 +38,7 @@ class Map {
           zoom: 12
         });
         var kmlLayer = new google.maps.KmlLayer({
-            url: '../../data/catchments.kml',
+            url: 'https://github.com/JMensch/philadelphia-school-search/blob/master/data/catchments.kml',
             map: map
         });
         // if geojson exists, add it
