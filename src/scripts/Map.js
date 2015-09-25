@@ -13,7 +13,7 @@ class Map {
     * @return map object
     */
     render(loc) {
-        window.API.get("../../data/data.geojson")
+        window.API.get("https://raw.githubusercontent.com/JMensch/philadelphia-school-search/master/dist/data/data.geojson")
             .then(
                 function (ret) {
                     return this.map(loc, ret);
