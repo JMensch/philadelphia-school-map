@@ -7,8 +7,8 @@ var reload      = browserSync.reload,
     babel       = require('gulp-babel'),
     browserify  = require('browserify'),
     source      = require('vinyl-source-stream'),
-    uglify      = require('gulp-uglify');
-    
+    uglify      = require('gulp-uglify'),
+    ghPages     = require('gulp-gh-pages');
 /**
  * Serve the Harp Site from the dist directory
  */
@@ -25,6 +25,11 @@ gulp.task('serve', function () {
       }
     });
   })
+});
+
+gulp.task('deploy', function() {
+  return gulp.src('./dist/**/*')
+    .pipe(ghPages());
 });
 
 gulp.task('compile-markup', function() {
