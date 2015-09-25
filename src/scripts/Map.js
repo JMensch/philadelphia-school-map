@@ -1,18 +1,10 @@
 'use strict';
-var $ = require('jquery');
 
 class Map {
     constructor(args) {
         args = args || {};
         this.geojson = args.geojson;
-        this.loadJSON();
-    }
-
-    loadJSON(callback) {
-        callback = callback || function(json) {};
-        $.getJSON("../../data/data.geojson", function(json) {
-            callback(json);
-        });
+        // this.render();
     }
 
     /**
@@ -21,33 +13,43 @@ class Map {
     * @return map object
     */
     render(loc) {
-        let json = {};
-        let callback = function(json) {
-            this.map(loc, json);
-        }.bind(this);
-
-        return this.loadJSON(callback);
+        window.API.get("../../data/data.geojson")
+            .then(
+                function (ret) {
+                    return this.map(loc, ret);
+                }.bind(this),
+                function (error) {
+                    console.log(error);
+                }
+            );
     }
 
     /**
     * Builds the map instance
-    * @param string loc  the #id location in the markup
+    * @param string loc      the #id location in the markup
+    * @param json   geojson  the geojson object of schools
     * @return map object
     */
     map(loc, geojson) {
         let map = {};
-
         // load a map of philly
         map = new google.maps.Map(document.getElementById(loc), {
           center: { lat: 39.9500, lng: -75.1667 },
           zoom: 12
         });
-
+        var kmlLayer = new google.maps.KmlLayer({
+            url: '../../data/catchments.kml',
+            map: map
+        });
         // if geojson exists, add it
         if (geojson !== undefined) {
+            if (typeof geojson == 'string') {
+                geojson = JSON.parse(geojson);
+            }
             map.data.addGeoJson(geojson);
         }
 
+        console.log(kmlLayer)
         return map;
     }
 }
