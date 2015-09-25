@@ -9276,7 +9276,7 @@ class Map {
           zoom: 12
         });
         var kmlLayer = new google.maps.KmlLayer({
-            url: 'https://raw.githubusercontent.com/JMensch/philadelphia-school-search/data/dist/data/catchments.kml',
+            url: 'https://raw.githubusercontent.com/JMensch/philadelphia-school-search/master/dist/data/catchments.kml',
             map: map
         });
         // if geojson exists, add it
