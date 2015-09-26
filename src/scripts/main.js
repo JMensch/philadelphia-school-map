@@ -5,7 +5,7 @@ var Api = require('./API.js'),
     init = require('./init.js');
 
 
-initPage = function() {
+let initPage = function() {
     window.API = new Api.Api();
     // init.test(Metadata.Metadata);
     init.init(Map.Map);
