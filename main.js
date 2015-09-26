@@ -9251,7 +9251,7 @@ class Map {
     * @return map object
     */
     render(loc) {
-        window.API.get("../../data/data.geojson")
+        window.API.get("https://raw.githubusercontent.com/JMensch/philadelphia-school-search/master/dist/data/data.geojson")
             .then(
                 function (ret) {
                     return this.map(loc, ret);
@@ -9335,10 +9335,12 @@ var Api = require('./API.js'),
     init = require('./init.js');
 
 
-window.initPage = function() {
+initPage = function() {
     window.API = new Api.Api();
     // init.test(Metadata.Metadata);
     init.init(Map.Map);
 }
+
+window.onload = initPage;
 
 },{"./API.js":2,"./Map.js":3,"./Metadata.js":4,"./init.js":5}]},{},[6]);
