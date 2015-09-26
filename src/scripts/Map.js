@@ -1,4 +1,5 @@
 'use strict';
+var $ = require('jQuery');
 
 class Map {
     constructor(args) {
@@ -38,13 +39,6 @@ class Map {
           zoom: 11
         });
 
-        // add the catchment layer
-        var kmlLayer = new google.maps.KmlLayer({
-            url: 'https://raw.githubusercontent.com/JMensch/philadelphia-school-search/master/dist/data/catchments.kml',
-            map: map,
-            preserveViewport: true
-        });
-
         // if geojson exists, add it
         if (geojson !== undefined) {
             if (typeof geojson == 'string') {
@@ -53,6 +47,57 @@ class Map {
             map.data.addGeoJson(geojson);
         }
 
+        // load the catchment data
+        let geoXml = new geoXML3.parser({
+             map: map,
+             zoom: true,
+             singleInfoWindow: true,
+            //  markerOptions: {optimized: false},
+            //  createMarker: function() {},
+             //the function called after parsing the kml file
+             afterParse: addEvents
+        });
+
+        function addEvents(geoXml) {
+            for (let i=0; i < geoXml[0].placemarks.length; i++) {
+                let placemark = geoXml[0].placemarks[i];
+                placemark.name = 'TEST ' + i;
+                polygonMouseover(placemark.polygon,placemark.name);
+                $('#map_text').append(placemark.name + ', ');
+            }
+        }
+
+        var ib = new InfoBubble({
+          shadowStyle: 0,
+          padding: 0,
+          backgroundColor: 'white',
+          borderRadius: 4,
+          arrowSize: 0,
+          borderWidth: 1,
+          borderColor: 'black',
+          disableAutoPan: true,
+          hideCloseButton: true,
+          arrowPosition: 50,
+          arrowStyle: 0
+        });
+
+        function polygonMouseover(poly, text) {
+            google.maps.event.addListener(poly, 'mouseover', function(evt) {
+                ib.setContent(text);
+                ib.setPosition(evt.latLng);
+                ib.setMap(map);
+                ib.open()
+            });
+            google.maps.event.addListener(poly, 'mouseout', function(evt) {
+                ib.close()
+            });
+        }
+        
+        geoXml.parse('https://raw.githubusercontent.com/JMensch/philadelphia-school-search/master/dist/data/catchments.kml');
+
+        google.maps.event.addDomListener(map, 'mouseover', function() {
+            console.log('hover!')
+      });
         return map;
     }
 }
