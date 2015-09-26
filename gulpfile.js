@@ -32,13 +32,13 @@ gulp.task('compile', function() {
     return gulp
         .src('')
         .pipe(shell([
-            'harp compile dist compile'
+            'harp compile dist _harp'
         ]));
 });
 
 gulp.task('deploy-ghpages', function() {
   return gulp
-        .src('./compile/**/*')
+        .src('./_harp/**/*')
         .pipe(ghPages());
 });
 
