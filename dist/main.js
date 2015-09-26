@@ -9270,15 +9270,19 @@ class Map {
     */
     map(loc, geojson) {
         let map = {};
-        // load a map of philly
+        // default the map to Philly
         map = new google.maps.Map(document.getElementById(loc), {
           center: { lat: 39.9500, lng: -75.1667 },
-          zoom: 12
+          zoom: 11
         });
+
+        // add the catchment layer
         var kmlLayer = new google.maps.KmlLayer({
             url: 'https://raw.githubusercontent.com/JMensch/philadelphia-school-search/master/dist/data/catchments.kml',
-            map: map
+            map: map,
+            preserveViewport: true
         });
+
         // if geojson exists, add it
         if (geojson !== undefined) {
             if (typeof geojson == 'string') {
@@ -9287,7 +9291,6 @@ class Map {
             map.data.addGeoJson(geojson);
         }
 
-        console.log(kmlLayer)
         return map;
     }
 }
