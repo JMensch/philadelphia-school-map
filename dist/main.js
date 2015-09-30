@@ -9253,7 +9253,7 @@ class Map {
     * @return map object
     */
     render(loc) {
-        let map = this.instantiate(loc);
+        let map = this.addMap(loc);
         this.addGeojson(map, this.geojsonLoc);
         this.addKmlLayer(map, this.kmlLoc);
     }
@@ -9360,7 +9360,7 @@ class Map {
     * @param string loc      the #id location in the markup
     * @return map object
     */
-    instantiate(loc) {
+    addMap(loc) {
         let map = {};
         // default the map to Philly
         map = new google.maps.Map(document.getElementById(loc), {
