@@ -1,7 +1,7 @@
 'use strict';
 var $ = require('jquery');
 
-class Api {
+export default class Api {
     constructor(args) {
         args = args || {};
     }
@@ -19,5 +19,3 @@ class Api {
         )
     }
 }
-
-exports.Api = Api;

@@ -1,11 +1,22 @@
 'use strict';
-var $ = require('jQuery');
+const $ = require('jQuery');
 
-class Map {
-    constructor(args) {
-        args = args || {};
-        this.geojsonLoc = "https://raw.githubusercontent.com/JMensch/philadelphia-school-search/master/dist/data/data.geojson";
+/**
+* The map instance and related methods
+* @access public
+*/
+export default class Map {
+    /**
+     * Instantiates the Map instance
+     * @param  {[type]} args [description]
+     * @return {object}      the map
+     */
+    constructor(args={}) {
+
+        this.geojsonLoc = args.geojsonLoc;
         this.kmlLoc = 'https://raw.githubusercontent.com/JMensch/philadelphia-school-search/master/dist/data/catchments.kml';
+
+        return this;
     }
     /**
     * Returns a new instance of map
@@ -131,5 +142,3 @@ class Map {
         return map;
     }
 }
-
-exports.Map = Map;

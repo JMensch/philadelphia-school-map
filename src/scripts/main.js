@@ -1,11 +1,10 @@
 'use strict';
-var Api = require('./API.js'),
-    geoXML3 = require('./geoxml3.js'),
-    InfoBubble = require('./infobubble.js'),
-    Map = require('./Map.js'),
-    Metadata = require('./Metadata.js'),
-    init = require('./init.js');
-
+import * from './API';
+import geoXML3 from './geoxml3';
+import InfoBubble from './infobubble';
+import { Map } from './Map';
+// import { Metadata } from './Metadata'
+// import init from './init';
 
 let initPage = function() {
     window.API = new Api.Api();

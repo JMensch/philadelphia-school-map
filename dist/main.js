@@ -9241,7 +9241,11 @@ exports.Api = Api;
 'use strict';
 var $ = require('jQuery');
 
+/**
+* The map instance and related methods
+*/
 class Map {
+
     constructor(args) {
         args = args || {};
         this.geojsonLoc = "https://raw.githubusercontent.com/JMensch/philadelphia-school-search/master/dist/data/data.geojson";
@@ -9371,8 +9375,6 @@ class Map {
         return map;
     }
 }
-
-exports.Map = Map;
 
 },{"jQuery":1}],5:[function(require,module,exports){
 'use strict';

@@ -4,7 +4,7 @@ var browserSync = require('browser-sync');
 var reload      = browserSync.reload,
     harp        = require('harp'),
     sass        = require('gulp-sass'),
-    babel       = require('gulp-babel'),
+    babel       = require('babelify'),
     browserify  = require('browserify'),
     source      = require('vinyl-source-stream'),
     uglify      = require('gulp-uglify'),
@@ -36,29 +36,32 @@ gulp.task('compile', function() {
         ]));
 });
 
+// deploys the contents of harp to github pages
 gulp.task('deploy-ghpages', function() {
   return gulp
         .src('./_harp/**/*')
         .pipe(ghPages());
 });
 
+// move our ejs files to dist
 gulp.task('compile-markup', function() {
     return gulp.src('src/*.ejs')
         // .pipe(ejs())
         .pipe(gulp.dest('dist'));
 });
 
+// compile scss to css
 gulp.task('compile-styles', function() {
     return gulp.src('src/styles/*.scss')
         .pipe(sass())
         .pipe(gulp.dest('dist'));
 });
 
+// compiles our js to dist
 gulp.task('compile-scripts', function() {
-    var b = browserify();
-	b.add('src/scripts/main.js');
-
-	return b.bundle()
+	return browserify({ entries: 'src/scripts/main.js', debug: true, extensions: ['.js'] })
+        .transform(babel)
+        .bundle()
 		.on('error', function(err) { console.log(err); this.emit('end'); })
 		.pipe(source('main.js'))
 		.pipe(gulp.dest('dist'));
