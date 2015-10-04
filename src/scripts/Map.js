@@ -8,65 +8,37 @@ const $ = require('jQuery');
 export default class Map {
     /**
      * Instantiates the Map instance
-     * @param  {[type]} args [description]
-     * @return {object}      the map
+     * @return {bool}
      */
-    constructor(args={}) {
-
-        this.geojsonLoc = args.geojsonLoc;
-        this.kmlLoc = 'https://raw.githubusercontent.com/JMensch/philadelphia-school-search/master/dist/data/catchments.kml';
-
+    constructor() {
+        this.map = {};
+        return true;
+    }
+    /**
+     * Adds geojson object to the map object
+     * @param {JSON} geojson The geojson object to add
+     * @return {object}      The map object
+     */
+    addGeojson(geojson) {
+        this.map.data.addGeoJson(geojson);
         return this;
     }
     /**
-    * Returns a new instance of map
-    * @param string loc  the #id of where we want the map
-    * @return map object
-    */
-    render(loc) {
-        let map = this.addMap(loc);
-        this.addGeojson(map, this.geojsonLoc);
-        this.addKmlLayer(map, this.kmlLoc);
-    }
-    /**
-    * Adds geojson to map object
-    * @param object map  the map object
-    * @param string src  the location of the geojson file
-    * @return bool
-    */
-    addGeojson(map, src) {
-        window.API.get(src)
-            .then(
-                function (geojson) {
-                    // if geojson exists, add it
-                    if (geojson !== undefined) {
-                        if (typeof geojson == 'string') {
-                            geojson = JSON.parse(geojson);
-                        }
-                        map.data.addGeoJson(geojson);
-                    }
-                    return true;
-                },
-                function (error) {
-                    console.log(error);
-                    return false;
-                }
-            );
-    }
-    /**
-    * Adds kml layer to map object
-    * @param object map  the map object
-    * @param string src  the location of the kml file
-    * @return bool
-    */
-    addKmlLayer(map, src) {
+     * Adds kml layer to the map
+     * @param {string} kmlLoc The location of the KML layer file
+     * @return {object}       The map object
+     */
+    addKmlLayer(kmlLoc) {
+        let map = this.map;
+        let app = app || {};
+        
         // geoXML callback
         function addEvents() {
-            this.addCatchmentEvent(map, geoXml);
-        };
+            // this.addCatchmentEvent(map, geoXml);
+        }
 
         // load the catchment data
-        let geoXml = new geoXML3.parser({
+        let geoXml = app.geoXML3.parser({
              map: map,
              zoom: true,
              singleInfoWindow: true,
@@ -76,16 +48,17 @@ export default class Map {
              afterParse: addEvents.bind(this)
         });
 
-        geoXml.parse(src);
+        geoXml.parse(kmlLoc);
 
-        return true;
+        return this;
     }
     /**
     * Add hover events to catchment layer
-    * @param object geoXml  the catchment layer
-    * @return bool
+    * @param object geoXml  The catchment layer
+    * @return {object}      The map object
     */
     addCatchmentEvent(map, geoXml) {
+        let google = google || {};
         // the popups
         var ib = new InfoBubble({
           shadowStyle: 0,
@@ -107,17 +80,18 @@ export default class Map {
                 ib.setContent(text);
                 ib.setPosition(evt.latLng);
                 ib.setMap(map);
-                ib.open()
+                ib.open();
             });
+
             google.maps.event.addListener(poly, 'mouseout', function(evt) {
-                ib.close()
+                ib.close();
             });
         }
 
-        if (geoXml['docs'] && geoXml['docs'].length > 0) {
+        if (geoXml.docs && geoXml.docs.length > 0) {
             // iterates through the catchment zones and attaches event layers
-            for (let i=0; i < geoXml['docs'][0].placemarks.length; i++) {
-                let placemark = geoXml['docs'][0].placemarks[i];
+            for (let i=0; i < geoXml.docs[0].placemarks.length; i++) {
+                let placemark = geoXml.docs[0].placemarks[i];
                 placemark.name = 'TEST ' + i;
                 polygonMouseover(placemark.polygon,placemark.name);
                 $('#map_text').append(placemark.name + ', ');
@@ -127,18 +101,18 @@ export default class Map {
         return true;
     }
     /**
-    * Initiates the map instance
-    * @param string loc      the #id location in the markup
-    * @return map object
-    */
-    addMap(loc) {
-        let map = {};
+     * Adds the bare map to the map
+     * @param {string} loc The HTML #id to add the map to
+     * @return {object}    The map object
+     */
+    renderMap(loc) {
+        let google = google || {};
         // default the map to Philly
-        map = new google.maps.Map(document.getElementById(loc), {
+        this.map = new google.maps.Map(document.getElementById(loc), {
           center: { lat: 39.9500, lng: -75.1667 },
           zoom: 11
         });
 
-        return map;
+        return this;
     }
 }

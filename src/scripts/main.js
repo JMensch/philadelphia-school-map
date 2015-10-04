@@ -1,15 +1,25 @@
 'use strict';
-import * from './API';
-import geoXML3 from './geoxml3';
-import InfoBubble from './infobubble';
-import { Map } from './Map';
-// import { Metadata } from './Metadata'
-// import init from './init';
+import Api from './API';
+// const InfoBubble = require('./infobubble');
+import Map from './Map';
+import Metadata from './Metadata';
+import { init } from './init';
+const geoXML3 = require('./geoxml3');
 
-let initPage = function() {
-    window.API = new Api.Api();
-    // init.test(Metadata.Metadata);
-    init.init(Map.Map);
-}
+const app = {
+    'Api': new Api(),
+    'Map': new Map(),
+    'Metadata': new Metadata(),
+    'geoXML3': geoXML3
+};
 
-window.onload = initPage;
+/**
+ * Runs the app
+ */
+let run = function() {
+    init();
+};
+
+
+
+window.onload = run;

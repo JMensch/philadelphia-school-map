@@ -1,11 +1,12 @@
 'use strict';
-var $ = require('jquery');
+const $ = require('jquery');
 
 export default class Api {
-    constructor(args) {
-        args = args || {};
-    }
-
+    /**
+     * GET call
+     * @param  {string} url The request url
+     * @return {object}     Promise containing the response
+     */
     get(url) {
         return new Promise(
             function(resolve, reject) {
@@ -13,9 +14,9 @@ export default class Api {
                     resolve(ret);
                 })
                 .fail(function(err) {
-                    reject(error);
+                    reject(err);
                 });
             }
-        )
+        );
     }
 }
