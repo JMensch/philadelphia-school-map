@@ -31,7 +31,7 @@ export default class Map {
     addKmlLayer(kmlLoc) {
         let map = this.map;
         let app = app || {};
-        
+
         // geoXML callback
         function addEvents() {
             // this.addCatchmentEvent(map, geoXml);
@@ -105,7 +105,8 @@ export default class Map {
      * @param {string} loc The HTML #id to add the map to
      * @return {object}    The map object
      */
-    renderMap(loc) {
+    render(loc) {
+        console.log(google)
         let google = google || {};
         // default the map to Philly
         this.map = new google.maps.Map(document.getElementById(loc), {

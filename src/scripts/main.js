@@ -4,12 +4,13 @@ import Api from './API';
 import Map from './Map';
 import Metadata from './Metadata';
 import { init } from './init';
-const geoXML3 = require('./geoxml3');
+// const geoXML3 = require('./geoxml3');
+const geoXML3 = null;
 
 const app = {
     'Api': new Api(),
     'Map': new Map(),
-    'Metadata': new Metadata(),
+    // 'Metadata': new Metadata(),
     'geoXML3': geoXML3
 };
 
@@ -21,5 +22,5 @@ let run = function() {
 };
 
 
-
+window.app = app;
 window.onload = run;

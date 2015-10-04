@@ -4,7 +4,7 @@
  * @return {bool}
  */
 function init() {
-    let app = app || {};
+    let app = window.app || {};
     let geojson;
     // the location of our geojson file of schools
     let geojsonLoc = 'https://raw.githubusercontent.com/JMensch/philadelphia-school-map/master/dist/data/data.geojson';
@@ -47,7 +47,7 @@ function test(Metadata) {
  * @return {object}     Response or empty object
  */
 function _getData(src) {
-    let app = app || {};
+    let app = window.app || {};
     app.Api.get(src)
         .then(
             function (res) {
