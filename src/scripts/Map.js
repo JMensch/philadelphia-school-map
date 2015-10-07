@@ -58,7 +58,6 @@ export default class Map {
     * @return {object}      The map object
     */
     addCatchmentEvent(map, geoXml) {
-        let google = google || {};
         // the popups
         var ib = new InfoBubble({
           shadowStyle: 0,
@@ -106,8 +105,6 @@ export default class Map {
      * @return {object}    The map object
      */
     render(loc) {
-        console.log(google)
-        let google = google || {};
         // default the map to Philly
         this.map = new google.maps.Map(document.getElementById(loc), {
           center: { lat: 39.9500, lng: -75.1667 },

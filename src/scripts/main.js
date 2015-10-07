@@ -17,10 +17,10 @@ const app = {
 /**
  * Runs the app
  */
-let run = function() {
+window.run = function() {
+    console.log(google)
     init();
 };
 
 
 window.app = app;
-window.onload = run;
