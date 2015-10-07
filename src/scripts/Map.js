@@ -38,7 +38,7 @@ export default class Map {
         }
 
         // load the catchment data
-        let geoXml = app.geoXML3.parser({
+        let geoXml = geoXML3.parser({
              map: map,
              zoom: true,
              singleInfoWindow: true,
