@@ -11,25 +11,32 @@ function init() {
     // the location of our kml layer file
     let kmlLoc = 'https://raw.githubusercontent.com/JMensch/philadelphia-school-search/master/dist/data/catchments.kml';
 
-    geojson = _getData(geojsonLoc);
-
     // init the map
     app.Map.render('map');
 
-    // try to add the geojson layer
-    try {
-        if (geojson) {
-            app.Map.addGeojson(geojson);
+    // add the goejson
+    _getData(geojsonLoc).then(
+        function (geojson) {
+            // try to add the geojson layer
+            try {
+                if (geojson) {
+                    geojson = JSON.parse(geojson);
+                    app.Map.addGeojson(geojson);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        function (error) {
+            console.log(error);
         }
-    } catch (e) {
-        console.log(e);
-    }
+    );
 
     //try to add the kml layer
     try {
         app.Map.addKmlLayer(kmlLoc);
-    } catch (e) {
-        console.log(e);
+    } catch (error) {
+        console.log(error);
     }
 
     return true;
@@ -44,20 +51,25 @@ function test(Metadata) {
 /**
  * Gets geojson data
  * @param  {string} src The location to request data from
- * @return {object}     Response or empty object
+ * @return {Promise}    Response or empty object
  */
-function _getData(src) {
+function _getData(src, callback) {
     let app = window.app || {};
-    app.Api.get(src)
-        .then(
-            function (res) {
-                return res;
-            },
-            function (error) {
-                console.log(error);
-                return {};
-            }
-        );
+    return new Promise(
+        function(resolve, reject) {
+            app.Api.get(src)
+                .then(
+                    function (res) {
+                        resolve(res);
+                    },
+                    function (error) {
+                        console.log(error);
+                        reject({});
+                    }
+                );
+        }
+    );
+
 }
 
 export { init, test };
