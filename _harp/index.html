@@ -6,12 +6,19 @@
   <body>
 
     <!-- include index.ejs -->
-    <div style="width: 300x; height: 800px; margin: 0 auto" id="map">MAP HERE</div>
-<div id="map-text"></div>
-    
+    <div id="map">MAP HERE</div>
+<div id="info-box">
+    <div>School Name: <span id="info-name"></span></div>
+    <div>Address: <span id="info-address"></span></div>
+    <div>Phone: <span id="info-phone"></span></div>
+    <div>Grades Offered: <span id="info-grades"></span></div>
+    <div>School Type: <span id="info-type"></span></div>
+</div>
+
     <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGrJEz1PW02crTMIE6Kum7mZXlDhzUn6Q&callback=initPage">
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGrJEz1PW02crTMIE6Kum7mZXlDhzUn6Q&callback=run">
     </script>
+    <script src="geoxml3.js"></script>
     <script src="main.js"></script>
   </body>
 </html>
