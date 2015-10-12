@@ -53,7 +53,7 @@ function test(Metadata) {
  * @param  {string} src The location to request data from
  * @return {Promise}    Response or empty object
  */
-function _getData(src, callback) {
+function _getData(src) {
     let app = window.app || {};
     return new Promise(
         function(resolve, reject) {
@@ -69,7 +69,6 @@ function _getData(src, callback) {
                 );
         }
     );
-
 }
 
 export { init, test };

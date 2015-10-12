@@ -18,6 +18,15 @@ h3 {
   font-weight: 300;
 }
 
-#map-text {
-    display:none;
+#map {
+    width: 800px;
+    height: 600px;
+}
+
+#info-box {
+    width: 400px;
+    height: 300px;
+    div {
+        text-align: left;
+    }
 }

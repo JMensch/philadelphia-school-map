@@ -21,6 +21,13 @@ export default class Map {
      */
     addGeojson(geojson) {
         this.map.data.addGeoJson(geojson);
+        this.map.data.addListener('mouseover', function(event) {
+            $('#info-name').html(event.feature.getProperty('FACIL_NAME'));
+            $('#info-address').html(event.feature.getProperty('FACIL_ADDRESS'));
+            $('#info-phone').html(event.feature.getProperty('FACIL_TELEPHONE'));
+            $('#info-grades').html(event.feature.getProperty('GRADE_LEVEL'));
+            $('#info-type').html(event.feature.getProperty('TYPE_SPECIFIC'));
+        });
         return this;
     }
     /**
