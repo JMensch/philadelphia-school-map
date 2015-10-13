@@ -115,11 +115,13 @@ export default class Map {
      */
     render(loc) {
         // default the map to Philly
-        this.map = new google.maps.Map(document.getElementById(loc), {
-          center: { lat: 39.99, lng: -75.107 },
-          zoom: 12
-        });
-
+        this.map = Leaflet.map(loc).setView([39.99, -75.107], 12);
+        Leaflet.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+            maxZoom: 18,
+            id: 'your.mapbox.project.id',
+            accessToken: 'your.mapbox.public.access.token'
+        }).addTo(map);
         return this;
     }
 }

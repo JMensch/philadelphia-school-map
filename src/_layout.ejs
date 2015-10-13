@@ -1,6 +1,7 @@
 <html>
   <head>
     <title>My Site</title>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
     <link rel="stylesheet" type="text/css" href="main.css">
   </head>
   <body>
@@ -8,10 +9,11 @@
     <!-- include index.ejs -->
     <%- yield %>
 
-    <script async defer
+    <!--<script async defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGrJEz1PW02crTMIE6Kum7mZXlDhzUn6Q&callback=run">
     </script>
-    <script src="geoxml3.js"></script>
+    -->
+    <!-- <script src="geoxml3.js"></script> -->
     <script src="main.js"></script>
   </body>
 </html>
