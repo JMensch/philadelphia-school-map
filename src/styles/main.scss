@@ -22,16 +22,16 @@ body {
     top: 0;
     bottom: 0;
     right: 0;
-    width: auto;
+    width: 35vh;
     height: 100vh;
     z-index: 10;
 
-    div{
-     + div{
-       margin-top: 10px;
-      }
-    span{
-      font-weight: bold;
+    div {
+        + div {
+            margin-top: 10px;
+        }
+        span {
+            font-weight: bold;
+        }
     }
-  }
 }

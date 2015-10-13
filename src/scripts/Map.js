@@ -47,8 +47,10 @@ export default class Map {
         // load the catchment data
         let geoXml = geoXML3.parser({
              map: map,
-             zoom: true,
-             singleInfoWindow: true,
+             suppressInfoWindows: true,
+             zoom: false,
+            //  singleInfoWindow: true,
+            //  preserveViewport: true,
              //markerOptions: {optimized: false},
              //createMarker: function() {},
              //the function called after parsing the kml file
@@ -114,8 +116,8 @@ export default class Map {
     render(loc) {
         // default the map to Philly
         this.map = new google.maps.Map(document.getElementById(loc), {
-          center: { lat: 39.9500, lng: -75.1667 },
-          zoom: 11
+          center: { lat: 39.99, lng: -75.107 },
+          zoom: 12
         });
 
         return this;
