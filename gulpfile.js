@@ -53,7 +53,7 @@ gulp.task('compile-markup', function() {
 
 // compile scss to css
 gulp.task('compile-styles', function() {
-	return gulp.src('src/styles/*.scss')
+	return gulp.src('src/styles/main.scss')
 		.pipe(sass())
 		.pipe(gulp.dest('dist'));
 });
