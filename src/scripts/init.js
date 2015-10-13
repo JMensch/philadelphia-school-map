@@ -7,9 +7,9 @@ function init() {
     let app = window.app || {};
     let geojson;
     // the location of our geojson file of schools
-    let geojsonLoc = 'https://raw.githubusercontent.com/JMensch/philadelphia-school-map/master/dist/data.geojson';
+    let geojsonLoc = 'https://raw.githubusercontent.com/JMensch/philadelphia-school-map/master/data/data.geojson';
     // the location of our kml layer file
-    let kmlLoc = 'https://raw.githubusercontent.com/JMensch/philadelphia-school-search/master/dist/catchments.kml';
+    let kmlLoc = 'https://raw.githubusercontent.com/JMensch/philadelphia-school-search/master/data/catchments.kml';
 
     // init the map
     app.Map.render('map');

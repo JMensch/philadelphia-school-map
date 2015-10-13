@@ -1,6 +1,6 @@
 'use strict';
 const $ = require('jQuery');
-
+const Leaflet = require('Leaflet');
 /**
 * The map instance and related methods
 * @access public
