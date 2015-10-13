@@ -1,22 +1,37 @@
 body {
   font-family: "Helvetica";
-  background: #616161;
-  color: #eee;
+  background: #eee;
+  color: #333;
+  margin: 0;
+  position: relative;
+
 }
 
-
 #map {
-    width: 69%;
     height: 100vh;
-    display: inline-block;;
+    width: 100vw;
+    position: relative;
+    z-index: 5;
 }
 
 #info-box {
-    background: #424242;
-    width: 30%;
+    padding:10px;
+    background: rgba(100, 100, 100, 0.8);
+    color: #eee;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: auto;
     height: 100vh;
-    display: inline-block;
-    div {
-        text-align: left;
+    z-index: 10;
+
+    div{
+     + div{
+       margin-top: 10px;
+      }
+    span{
+      font-weight: bold;
     }
+  }
 }
