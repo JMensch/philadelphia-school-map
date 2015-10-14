@@ -31,13 +31,13 @@ function init() {
             console.log(error);
         }
     );
-    //
-    // //try to add the kml layer
-    // try {
-    //     app.Map.addKmlLayer(kmlLoc);
-    // } catch (error) {
-    //     console.log(error);
-    // }
+
+    //try to add the kml layer
+    try {
+        app.Map.addKmlLayer(kmlLoc);
+    } catch (error) {
+        console.log(error);
+    }
 
     return true;
 }

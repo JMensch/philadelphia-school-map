@@ -1,6 +1,7 @@
 'use strict';
 const $ = require('jQuery');
 const Leaflet = require('Leaflet');
+
 /**
 * The map instance and related methods
 * @access public
@@ -38,29 +39,9 @@ export default class Map {
      * @return {object}       The map object
      */
     addKmlLayer(kmlLoc) {
-        let map = this.map;
         let app = app || {};
 
-        // geoXML callback
-        function addEvents() {
-            // this.addCatchmentEvent(map, geoXml);
-        }
-
-        // load the catchment data
-        let geoXml = geoXML3.parser({
-             map: map,
-             suppressInfoWindows: true,
-             zoom: false,
-            //  singleInfoWindow: true,
-            //  preserveViewport: true,
-             //markerOptions: {optimized: false},
-             //createMarker: function() {},
-             //the function called after parsing the kml file
-             afterParse: addEvents.bind(this)
-        });
-
-        geoXml.parse(kmlLoc);
-
+        omnivore.kml(kmlLoc).addTo(this.map);
         return this;
     }
     /**
