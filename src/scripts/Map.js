@@ -21,9 +21,19 @@ export default class Map {
      * @return {object}      The map object
      */
     addGeojson(geojson) {
-        let layer = Leaflet.geoJson(geojson)
-            .addTo(this.map);
-        // this.map.data.addGeoJson(geojson);
+        let bindHover = function(feature, marker) {
+            marker.on('mouseover', function(e) {
+                $('#info-name').html(feature.properties.FACIL_NAME);
+                $('#info-address').html(feature.properties.FACIL_ADDRESS);
+                $('#info-phone').html(feature.properties.FACIL_TELEPHONE);
+                $('#info-grades').html(feature.properties.GRADE_LEVEL);
+                $('#info-type').html(feature.properties.TYPE_SPECIFIC);
+            });
+        };
+
+        let layer = Leaflet.geoJson(geojson, {
+            onEachFeature: bindHover
+        }).addTo(this.map);
         // this.map.data.addListener('mouseover', function(event) {
         //     $('#info-name').html(event.feature.getProperty('FACIL_NAME'));
         //     $('#info-address').html(event.feature.getProperty('FACIL_ADDRESS'));
@@ -40,6 +50,7 @@ export default class Map {
      */
     addKmlLayer(kmlLoc) {
         let app = app || {};
+        // let omnivore = omnivore || {};
 
         omnivore.kml(kmlLoc).addTo(this.map);
         return this;
