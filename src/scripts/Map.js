@@ -20,14 +20,16 @@ export default class Map {
      * @return {object}      The map object
      */
     addGeojson(geojson) {
-        this.map.data.addGeoJson(geojson);
-        this.map.data.addListener('mouseover', function(event) {
-            $('#info-name').html(event.feature.getProperty('FACIL_NAME'));
-            $('#info-address').html(event.feature.getProperty('FACIL_ADDRESS'));
-            $('#info-phone').html(event.feature.getProperty('FACIL_TELEPHONE'));
-            $('#info-grades').html(event.feature.getProperty('GRADE_LEVEL'));
-            $('#info-type').html(event.feature.getProperty('TYPE_SPECIFIC'));
-        });
+        let layer = Leaflet.geoJson(geojson)
+            .addTo(this.map);
+        // this.map.data.addGeoJson(geojson);
+        // this.map.data.addListener('mouseover', function(event) {
+        //     $('#info-name').html(event.feature.getProperty('FACIL_NAME'));
+        //     $('#info-address').html(event.feature.getProperty('FACIL_ADDRESS'));
+        //     $('#info-phone').html(event.feature.getProperty('FACIL_TELEPHONE'));
+        //     $('#info-grades').html(event.feature.getProperty('GRADE_LEVEL'));
+        //     $('#info-type').html(event.feature.getProperty('TYPE_SPECIFIC'));
+        // });
         return this;
     }
     /**
@@ -62,53 +64,6 @@ export default class Map {
         return this;
     }
     /**
-    * Add hover events to catchment layer
-    * @param object geoXml  The catchment layer
-    * @return {object}      The map object
-    */
-    addCatchmentEvent(map, geoXml) {
-        // the popups
-        var ib = new InfoBubble({
-          shadowStyle: 0,
-          padding: 0,
-          backgroundColor: 'white',
-          borderRadius: 4,
-          arrowSize: 0,
-          borderWidth: 1,
-          borderColor: 'black',
-          disableAutoPan: true,
-          hideCloseButton: true,
-          arrowPosition: 50,
-          arrowStyle: 0
-        });
-
-        // attached the event listener
-        function polygonMouseover(poly, text) {
-            google.maps.event.addListener(poly, 'mouseover', function(evt) {
-                ib.setContent(text);
-                ib.setPosition(evt.latLng);
-                ib.setMap(map);
-                ib.open();
-            });
-
-            google.maps.event.addListener(poly, 'mouseout', function(evt) {
-                ib.close();
-            });
-        }
-
-        if (geoXml.docs && geoXml.docs.length > 0) {
-            // iterates through the catchment zones and attaches event layers
-            for (let i=0; i < geoXml.docs[0].placemarks.length; i++) {
-                let placemark = geoXml.docs[0].placemarks[i];
-                placemark.name = 'TEST ' + i;
-                polygonMouseover(placemark.polygon,placemark.name);
-                $('#map_text').append(placemark.name + ', ');
-            }
-        }
-
-        return true;
-    }
-    /**
      * Adds the bare map to the map
      * @param {string} loc The HTML #id to add the map to
      * @return {object}    The map object
@@ -116,11 +71,14 @@ export default class Map {
     render(loc) {
         // default the map to Philly
         this.map = Leaflet.map(loc).setView([39.99, -75.107], 12)
+
+        // load the tiles
         Leaflet.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
             maxZoom: 18,
             id: 'menschy28.cifpumc636h7ks6kqjj2kk1uy',
             accessToken: 'pk.eyJ1IjoibWVuc2NoeTI4IiwiYSI6ImNpZnB1bWRiMGFkZjZpdWx4eXZyYnRwejYifQ.wn5cyDtjQct-_iUl3lI3vQ'
         }).addTo(this.map);
+
         return this;
     }
 }

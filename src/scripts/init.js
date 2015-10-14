@@ -14,23 +14,23 @@ function init() {
     // init the map
     app.Map.render('map');
 
-    // // add the goejson
-    // _getData(geojsonLoc).then(
-    //     function (geojson) {
-    //         // try to add the geojson layer
-    //         try {
-    //             if (geojson) {
-    //                 geojson = JSON.parse(geojson);
-    //                 app.Map.addGeojson(geojson);
-    //             }
-    //         } catch (error) {
-    //             console.log(error);
-    //         }
-    //     },
-    //     function (error) {
-    //         console.log(error);
-    //     }
-    // );
+    // add the goejson
+    _getData(geojsonLoc).then(
+        function (geojson) {
+            // try to add the geojson layer
+            try {
+                if (geojson) {
+                    geojson = JSON.parse(geojson);
+                    app.Map.addGeojson(geojson);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        function (error) {
+            console.log(error);
+        }
+    );
     //
     // //try to add the kml layer
     // try {
