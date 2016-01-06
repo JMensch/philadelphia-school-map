@@ -20,7 +20,7 @@ export default class Map {
      * @param {JSON} geojson The geojson object to add
      * @return {object}      The map object
      */
-    addGeojson(geojson) {
+    addSchools(schools) {
         let bindHover = function(feature, marker) {
             marker.on('mouseover', function(e) {
                 $('#info-name').html(feature.properties.FACIL_NAME);
@@ -31,9 +31,9 @@ export default class Map {
             });
         };
 
-        // Leaflet.geoJson(geojson, {
-        //     onEachFeature: bindHover
-        // }).addTo(this.map);
+        let layer = Leaflet.geoJson(schools, {
+            onEachFeature: bindHover
+        }).addTo(this.map);
 
         return this;
     }
@@ -49,8 +49,8 @@ export default class Map {
                 console.log(e.target.feature.properties);
             });
         }
-
-        let layer = Leaflet.geojson(kml, {
+        // console.log(kml)
+        let layer = Leaflet.geoJson(kml, {
             onEachFeature: consoleFeature
         }).addTo(this.map);
 

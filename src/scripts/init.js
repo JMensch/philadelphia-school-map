@@ -6,22 +6,22 @@
 function init() {
     let app = window.app || {};
     let geojson;
-    // the location of our geojson file of schools
-    let geojsonLoc = 'https://raw.githubusercontent.com/JMensch/philadelphia-school-map/master/data/data.geojson';
-    // the location of our kml layer file
-    let kmlLoc = 'https://raw.githubusercontent.com/JMensch/philadelphia-school-search/master/data/catchments.geojson';
+    // the location of our school points
+    let schoolsLoc = 'https://raw.githubusercontent.com/JMensch/philadelphia-school-map/master/data/data.geojson';
+    // the location of our catchment file
+    let catchmentsLoc = 'https://raw.githubusercontent.com/JMensch/philadelphia-school-search/master/data/catchments.geojson';
 
     // init the map
     app.Map.render('map');
 
     // add the goejson
-    _getData(geojsonLoc).then(
-        function (geojson) {
-            // try to add the geojson layer
+    _getData(schoolsLoc).then(
+        function (schools) {
+            // try to add the schools layer
             try {
-                if (geojson) {
-                    geojson = JSON.parse(geojson);
-                    app.Map.addGeojson(geojson);
+                if (schools) {
+                    schools = JSON.parse(schools);
+                    app.Map.addSchools(schools);
                 }
             } catch (error) {
                 console.log(error);
@@ -33,12 +33,13 @@ function init() {
     );
 
     // add the kml layer
-    _getData(kmlLoc).then(
-        function (kml) {
-            // try to add the kml layer
+    _getData(catchmentsLoc).then(
+        function (catchments) {
+            // try to add the catchments layer
             try {
-                if (kml) {
-                    app.Map.addKmlLayer(kml);
+                if (catchments) {
+                    catchments = JSON.parse(catchments);
+                    app.Map.addKmlLayer(catchments);
                 }
             } catch (error) {
                 console.log(error)
