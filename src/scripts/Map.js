@@ -31,16 +31,10 @@ export default class Map {
             });
         };
 
-        let layer = Leaflet.geoJson(geojson, {
-            onEachFeature: bindHover
-        }).addTo(this.map);
-        // this.map.data.addListener('mouseover', function(event) {
-        //     $('#info-name').html(event.feature.getProperty('FACIL_NAME'));
-        //     $('#info-address').html(event.feature.getProperty('FACIL_ADDRESS'));
-        //     $('#info-phone').html(event.feature.getProperty('FACIL_TELEPHONE'));
-        //     $('#info-grades').html(event.feature.getProperty('GRADE_LEVEL'));
-        //     $('#info-type').html(event.feature.getProperty('TYPE_SPECIFIC'));
-        // });
+        // Leaflet.geoJson(geojson, {
+        //     onEachFeature: bindHover
+        // }).addTo(this.map);
+
         return this;
     }
     /**
@@ -48,11 +42,18 @@ export default class Map {
      * @param {string} kmlLoc The location of the KML layer file
      * @return {object}       The map object
      */
-    addKmlLayer(kmlLoc) {
+    addKmlLayer(kml) {
         let app = app || {};
-        // let omnivore = omnivore || {};
+        let consoleFeature = function(feature, layer) {
+            layer.on('click', function(e) {
+                console.log(e.target.feature.properties);
+            });
+        }
 
-        omnivore.kml(kmlLoc).addTo(this.map);
+        let layer = Leaflet.geojson(kml, {
+            onEachFeature: consoleFeature
+        }).addTo(this.map);
+
         return this;
     }
     /**
@@ -62,7 +63,7 @@ export default class Map {
      */
     render(loc) {
         // default the map to Philly
-        this.map = Leaflet.map(loc).setView([39.99, -75.107], 12)
+        this.map = Leaflet.map(loc).setView([39.99, -75.107], 12);
 
         // load the tiles
         Leaflet.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {

@@ -9,7 +9,7 @@ function init() {
     // the location of our geojson file of schools
     let geojsonLoc = 'https://raw.githubusercontent.com/JMensch/philadelphia-school-map/master/data/data.geojson';
     // the location of our kml layer file
-    let kmlLoc = 'https://raw.githubusercontent.com/JMensch/philadelphia-school-search/master/data/catchments.kml';
+    let kmlLoc = 'https://raw.githubusercontent.com/JMensch/philadelphia-school-search/master/data/catchments.geojson';
 
     // init the map
     app.Map.render('map');
@@ -32,12 +32,22 @@ function init() {
         }
     );
 
-    //try to add the kml layer
-    try {
-        app.Map.addKmlLayer(kmlLoc);
-    } catch (error) {
-        console.log(error);
-    }
+    // add the kml layer
+    _getData(kmlLoc).then(
+        function (kml) {
+            // try to add the kml layer
+            try {
+                if (kml) {
+                    app.Map.addKmlLayer(kml);
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        function (error) {
+            console.log(error);
+        }
+    )
 
     return true;
 }
