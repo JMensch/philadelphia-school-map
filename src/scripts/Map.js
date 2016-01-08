@@ -31,9 +31,9 @@ export default class Map {
             });
         };
 
-        let layer = Leaflet.geoJson(schools, {
-            onEachFeature: bindHover
-        }).addTo(this.map);
+        // let layer = Leaflet.geoJson(schools, {
+        //     onEachFeature: bindHover
+        // }).addTo(this.map);
 
         return this;
     }
@@ -42,11 +42,13 @@ export default class Map {
      * @param {string} kmlLoc The location of the KML layer file
      * @return {object}       The map object
      */
-    addKmlLayer(kml) {
+    addCatchmentLayer(kml, schools) {
         let app = app || {};
+        console.log(schools)
         let consoleFeature = function(feature, layer) {
-            layer.on('click', function(e) {
+            layer.on('mouseover', function(e) {
                 console.log(e.target.feature.properties);
+                console.log(layer.getBounds());
             });
         }
         // console.log(kml)

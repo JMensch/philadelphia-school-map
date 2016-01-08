@@ -5,7 +5,8 @@
  */
 function init() {
     let app = window.app || {};
-    let geojson;
+    let schools;
+    let catchments;
     // the location of our school points
     let schoolsLoc = 'https://raw.githubusercontent.com/JMensch/philadelphia-school-map/master/data/data.geojson';
     // the location of our catchment file
@@ -14,13 +15,14 @@ function init() {
     // init the map
     app.Map.render('map');
 
+    var schools;
     // add the goejson
     _getData(schoolsLoc).then(
-        function (schools) {
+        function (res) {
             // try to add the schools layer
             try {
-                if (schools) {
-                    schools = JSON.parse(schools);
+                if (res) {
+                    schools = JSON.parse(res);
                     app.Map.addSchools(schools);
                 }
             } catch (error) {
@@ -31,6 +33,8 @@ function init() {
             console.log(error);
         }
     );
+    //undefined
+    console.log(schools);
 
     // add the kml layer
     _getData(catchmentsLoc).then(
@@ -39,16 +43,16 @@ function init() {
             try {
                 if (catchments) {
                     catchments = JSON.parse(catchments);
-                    app.Map.addKmlLayer(catchments);
+                    app.Map.addCatchmentLayer(catchments, schools);
                 }
             } catch (error) {
-                console.log(error)
+                console.log(error);
             }
         },
         function (error) {
             console.log(error);
         }
-    )
+    );
 
     return true;
 }
