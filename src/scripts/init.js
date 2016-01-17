@@ -15,7 +15,6 @@ function init() {
     // init the map
     app.Map.render('map');
 
-    var schools;
     // add the goejson
     _getData(schoolsLoc).then(
         function (res) {
@@ -23,27 +22,23 @@ function init() {
             try {
                 if (res) {
                     schools = JSON.parse(res);
-                    app.Map.addSchools(schools);
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        },
-        function (error) {
-            console.log(error);
-        }
-    );
-    //undefined
-    console.log(schools);
-
-    // add the kml layer
-    _getData(catchmentsLoc).then(
-        function (catchments) {
-            // try to add the catchments layer
-            try {
-                if (catchments) {
-                    catchments = JSON.parse(catchments);
-                    app.Map.addCatchmentLayer(catchments, schools);
+                    // add the kml layer
+                    _getData(catchmentsLoc).then(
+                        function (catchments) {
+                            // try to add the catchments layer
+                            try {
+                                if (catchments) {
+                                    catchments = JSON.parse(catchments);
+                                    app.Map.load(schools, catchments);
+                                }
+                            } catch (error) {
+                                console.log(error);
+                            }
+                        },
+                        function (error) {
+                            console.log(error);
+                        }
+                    );
                 }
             } catch (error) {
                 console.log(error);
