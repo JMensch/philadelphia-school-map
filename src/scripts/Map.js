@@ -38,19 +38,8 @@ export default class Map {
         // and return this
         if (this.currVisibleSchools) {
             this.map.removeLayer(this.currVisibleSchools);
-            return this;
+            this.currVisibleSchools = null;
         }
-
-        // display school information on marker hover
-        let bindHover = function(feature, marker) {
-            marker.on('mouseover', function(e) {
-                $('#info-name').html(feature.properties.FACIL_NAME);
-                $('#info-address').html(feature.properties.FACIL_ADDRESS);
-                $('#info-phone').html(feature.properties.FACIL_TELEPHONE);
-                $('#info-grades').html(feature.properties.GRADE_LEVEL);
-                $('#info-type').html(feature.properties.TYPE_SPECIFIC);
-            });
-        };
 
         // determine which schools are in the catchment boundaries
         let schoolsinbounds = [];
@@ -63,11 +52,18 @@ export default class Map {
         // create a layer group
         let newSchoolLayer = Leaflet.layerGroup(schoolsinbounds);
 
+        // display school information on marker hover
         // add layer group to map
-        newSchoolLayer.addTo(this.map);
-        // let layer = Leaflet.geoJson(schoolsinbounds, {
-        //     onEachFeature: bindHover
-        // }).addTo(this.map);
+        newSchoolLayer.eachLayer(function (marker) {
+            let markerProps = marker.feature.properties;
+            marker.on('mouseover', function(e) {
+                $('#info-name').html(markerProps.FACIL_NAME);
+                $('#info-address').html(markerProps.FACIL_ADDRESS);
+                $('#info-phone').html(markerProps.FACIL_TELEPHONE);
+                $('#info-grades').html(markerProps.GRADE_LEVEL);
+                $('#info-type').html(markerProps.TYPE_SPECIFIC);
+            });
+        }).addTo(this.map);
 
         this.currVisibleSchools = newSchoolLayer;
         return this;
@@ -88,9 +84,9 @@ export default class Map {
             }.bind(this));
 
             // removes schools from map
-            layer.on('mouseout', function(e) {
-                this.toggleSchools(schools);
-            }.bind(this));
+            // layer.on('mouseout', function(e) {
+            //     this.toggleSchools(schools);
+            // }.bind(this));
 
         }.bind(this);
 
