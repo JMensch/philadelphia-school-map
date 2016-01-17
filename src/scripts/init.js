@@ -31,21 +31,21 @@ function init() {
                                     catchments = JSON.parse(catchments);
                                     app.Map.load(schools, catchments);
                                 }
-                            } catch (error) {
-                                console.log(error);
+                            } catch (catchmentAddError) {
+                                console.log(catchmentAddError);
                             }
                         },
-                        function (error) {
-                            console.log(error);
+                        function (catchmentFetchError) {
+                            console.log(catchmentFetchError);
                         }
                     );
                 }
-            } catch (error) {
-                console.log(error);
+            } catch (globalError) {
+                console.log(globalError);
             }
         },
-        function (error) {
-            console.log(error);
+        function (schoolsFetchError) {
+            console.log(schoolsFetchError);
         }
     );
 
