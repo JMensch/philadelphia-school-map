@@ -1,6 +1,7 @@
 'use strict';
 const $ = require('jQuery');
 const Leaflet = require('Leaflet');
+const LeafletPip = require('leaflet-pip');
 
 /**
 * The map instance and related methods
@@ -35,7 +36,6 @@ export default class Map {
         let _schools = schools;
 
         // if there are currently visible schools, remove them
-        // and return this
         if (this.currVisibleSchools) {
             this.map.removeLayer(this.currVisibleSchools);
             this.currVisibleSchools = null;
@@ -44,7 +44,7 @@ export default class Map {
         // determine which schools are in the catchment boundaries
         let schoolsinbounds = [];
         Leaflet.geoJson(_schools).eachLayer(function(marker) {
-            if (boundaries.contains(marker.getLatLng())) {
+            if (LeafletPip.pointInLayer(marker.getLatLng(), Leaflet.geoJson(boundaries.toGeoJSON())).length > 0) {
                 schoolsinbounds.push(marker);
             }
         });
@@ -75,24 +75,16 @@ export default class Map {
      */
     addCatchmentLayer(schools, catchments) {
         // add mouseover event
-        let consoleFeature = function(feature, layer) {
+        let addSchoolsOnHover = function(feature, layer) {
             // adds schools in catchment to map
             layer.on('mouseover', function(e) {
-                // console.log(e.target.feature.properties);
-                let boundaries = layer.getBounds();
-                this.toggleSchools(schools, boundaries);
+                this.toggleSchools(schools, layer);
             }.bind(this));
-
-            // removes schools from map
-            // layer.on('mouseout', function(e) {
-            //     this.toggleSchools(schools);
-            // }.bind(this));
-
         }.bind(this);
 
         // add catchment layer to the map
         let layer = Leaflet.geoJson(catchments, {
-            onEachFeature: consoleFeature
+            onEachFeature: addSchoolsOnHover
         }).addTo(this.map);
 
         return this;
