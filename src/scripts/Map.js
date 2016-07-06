@@ -24,7 +24,8 @@ export default class Map {
      * @return {object}          The map object
      */
     load(schools, catchments) {
-        this.addCatchmentLayer(schools, catchments);
+        this.addCatchmentLayer(catchments);
+        this.addSchoolsLayer(schools);
         return this;
     }
     /**
@@ -32,40 +33,36 @@ export default class Map {
      * @param {JSON} geojson The geojson object to add
      * @return {object}      The map object
      */
-    toggleSchools(schools, boundaries) {
+    addSchoolsLayer(schools) {
         let _schools = schools;
 
-        // if there are currently visible schools, remove them
-        if (this.currVisibleSchools) {
-            this.map.removeLayer(this.currVisibleSchools);
-            this.currVisibleSchools = null;
-        }
-
         // determine which schools are in the catchment boundaries
-        let schoolsinbounds = [];
+        let schoolMarkers = [];
         Leaflet.geoJson(_schools).eachLayer(function(marker) {
-            if (LeafletPip.pointInLayer(marker.getLatLng(), Leaflet.geoJson(boundaries.toGeoJSON())).length > 0) {
-                schoolsinbounds.push(marker);
-            }
-        });
-
-        // create a layer group
-        let newSchoolLayer = Leaflet.layerGroup(schoolsinbounds);
-
-        // display school information on marker hover
-        // add layer group to map
-        newSchoolLayer.eachLayer(function (marker) {
             let markerProps = marker.feature.properties;
-            marker.on('mouseover', function(e) {
+            var cmkrOps = {
+                radius: 3,
+                fillColor: "#F7646C",
+                color: "#000",
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.8
+            };
+            let cmkr = new Leaflet.CircleMarker(marker.getLatLng(), cmkrOps);
+
+            cmkr.on('mouseover', function(e) {
                 $('#info-name').html(markerProps.FACIL_NAME);
                 $('#info-address').html(markerProps.FACIL_ADDRESS);
                 $('#info-phone').html(markerProps.FACIL_TELEPHONE);
                 $('#info-grades').html(markerProps.GRADE_LEVEL);
                 $('#info-type').html(markerProps.TYPE_SPECIFIC);
             });
-        }).addTo(this.map);
+            schoolMarkers.push(cmkr);
+        });
 
-        this.currVisibleSchools = newSchoolLayer;
+        // create a layer group
+        let schoolLayer = Leaflet.layerGroup(schoolMarkers).addTo(this.map);
+
         return this;
     }
     /**
@@ -73,23 +70,10 @@ export default class Map {
      * @param {JSON} catchments  the geojson object to add
      * @return {object}       The map object
      */
-    addCatchmentLayer(schools, catchments) {
-        // add mouseover event
-        let addSchoolsOnHover = function(feature, layer) {
-            // adds schools in catchment to map
-            layer.on('mouseover', function(e) {
-                this.toggleSchools(schools, layer);
-            }.bind(this));
-        }.bind(this);
-
-        // add catchment layer to the map
-        let layer = Leaflet.geoJson(catchments, {
-            onEachFeature: addSchoolsOnHover
-        }).addTo(this.map);
-
+    addCatchmentLayer(catchments) {
+        Leaflet.geoJson(catchments).addTo(this.map);
         return this;
     }
-
     /**
      * Adds the bare map to the screen
      * @param {string} loc The HTML #id to add the map to
